@@ -1,5 +1,7 @@
 package de.team7.data.inmemory.repository.config;
 
+import de.team7.data.domain.IntegerPrimaryKeyGenerator;
+import de.team7.data.domain.LongPrimaryKeyGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +34,9 @@ public class DelegatingInMemoryRepositoryConfiguration {
     }
 
     protected void addIdentifiers(IdentifierRegistry registry) {
+        registry.addIdentifier(Integer.class, new IntegerPrimaryKeyGenerator());
+        registry.addIdentifier(Long.class, new LongPrimaryKeyGenerator());
+
         this.configurers.addIdentifiers(registry);
     }
 }
