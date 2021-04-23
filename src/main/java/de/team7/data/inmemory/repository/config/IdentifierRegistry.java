@@ -19,11 +19,13 @@ public class IdentifierRegistry implements Supplier<IdentifierMapping> {
     /**
      * Registers a new pair.
      *
-     * @param entityClass         must not be {@literal null}
+     * @param idClass             must not be {@literal null}
      * @param primaryKeyGenerator must not be {@literal null}
+     * @param <ID>                the typ of the identifier
      */
-    public void addIdentifier(@NonNull Class<?> entityClass, @NonNull PrimaryKeyGenerator<?> primaryKeyGenerator) {
-        registrations.put(entityClass, primaryKeyGenerator);
+    public <ID> void addIdentifier(@NonNull Class<ID> idClass,
+                                   @NonNull PrimaryKeyGenerator<ID> primaryKeyGenerator) {
+        registrations.put(idClass, primaryKeyGenerator);
     }
 
     /**

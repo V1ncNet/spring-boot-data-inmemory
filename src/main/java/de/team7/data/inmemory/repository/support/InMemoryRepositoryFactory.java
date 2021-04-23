@@ -35,10 +35,11 @@ public class InMemoryRepositoryFactory extends RepositoryFactorySupport {
     @Override
     protected InMemoryRepository<?, ?> getTargetRepository(RepositoryInformation metadata) {
         Class<?> domainType = metadata.getDomainType();
+        InMemoryEntityInformation<?, ?> entityInformation = getEntityInformation(domainType);
 
         PrimaryKeyGenerator<?> generator;
         if (null != identifierMapping) {
-            generator = identifierMapping.get().get(domainType);
+            generator = identifierMapping.get().get(entityInformation.getIdType());
         } else {
             generator = new DefaultConstructorIdentifierGenerator<>(domainType);
         }
