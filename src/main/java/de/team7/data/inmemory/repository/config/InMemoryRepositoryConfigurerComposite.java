@@ -1,7 +1,5 @@
-package de.team7.swt.configuration;
+package de.team7.data.inmemory.repository.config;
 
-import de.team7.data.inmemory.repository.config.IdentifierRegistry;
-import de.team7.data.inmemory.repository.config.InMemoryRepositoryConfigurer;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;
@@ -13,7 +11,7 @@ import java.util.Set;
  *
  * @author Vincent Nadoll
  */
-class CompositeInMemoryRepositoryConfigurer implements InMemoryRepositoryConfigurer {
+class InMemoryRepositoryConfigurerComposite implements InMemoryRepositoryConfigurer {
 
     private final Set<InMemoryRepositoryConfigurer> delegates = new HashSet<>();
 
@@ -25,6 +23,6 @@ class CompositeInMemoryRepositoryConfigurer implements InMemoryRepositoryConfigu
 
     @Override
     public void addIdentifiers(IdentifierRegistry registry) {
-        delegates.forEach(delegates -> delegates.addIdentifiers(registry));
+        delegates.forEach(delegate -> delegate.addIdentifiers(registry));
     }
 }

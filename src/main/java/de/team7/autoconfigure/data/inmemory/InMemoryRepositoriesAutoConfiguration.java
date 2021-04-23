@@ -1,5 +1,6 @@
 package de.team7.autoconfigure.data.inmemory;
 
+import de.team7.data.inmemory.repository.config.DelegatingInMemoryRepositoryConfiguration;
 import de.team7.data.inmemory.repository.config.InMemoryRepositoryConfigExtension;
 import de.team7.data.inmemory.repository.support.InMemoryRepositoryFactoryBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -17,4 +18,8 @@ import org.springframework.context.annotation.Import;
 @ConditionalOnMissingBean({InMemoryRepositoryFactoryBean.class, InMemoryRepositoryConfigExtension.class})
 @Import(InMemoryRepositoriesRegistrar.class)
 public class InMemoryRepositoriesAutoConfiguration {
+
+    @Configuration(proxyBeanMethods = false)
+    public static class InMemoryRepositoryConfiguration extends DelegatingInMemoryRepositoryConfiguration {
+    }
 }

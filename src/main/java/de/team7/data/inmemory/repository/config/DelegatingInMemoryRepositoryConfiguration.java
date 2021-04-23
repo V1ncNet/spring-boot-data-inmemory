@@ -1,8 +1,5 @@
-package de.team7.swt.configuration;
+package de.team7.data.inmemory.repository.config;
 
-import de.team7.data.inmemory.repository.config.IdentifierMapping;
-import de.team7.data.inmemory.repository.config.IdentifierRegistry;
-import de.team7.data.inmemory.repository.config.InMemoryRepositoryConfigurer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,10 +12,10 @@ import java.util.Collection;
  *
  * @author Vincent Nadoll
  */
-@Configuration
-class InMemoryRepositoryConfiguration {
+@Configuration(proxyBeanMethods = false)
+public class DelegatingInMemoryRepositoryConfiguration {
 
-    private final CompositeInMemoryRepositoryConfigurer configurers = new CompositeInMemoryRepositoryConfigurer();
+    private final InMemoryRepositoryConfigurerComposite configurers = new InMemoryRepositoryConfigurerComposite();
 
     @Autowired(required = false)
     public void setConfigurers(Collection<InMemoryRepositoryConfigurer> configurers) {
@@ -30,7 +27,11 @@ class InMemoryRepositoryConfiguration {
     @Bean
     public IdentifierMapping identifierMapping() {
         IdentifierRegistry registry = new IdentifierRegistry();
-        configurers.addIdentifiers(registry);
+        addIdentifiers(registry);
         return registry.get();
+    }
+
+    protected void addIdentifiers(IdentifierRegistry registry) {
+        this.configurers.addIdentifiers(registry);
     }
 }

@@ -22,7 +22,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@Import(InMemoryRepositoriesRegistrar.class)
+@Import({InMemoryRepositoriesRegistrar.class, DelegatingInMemoryRepositoryConfiguration.class})
 public @interface EnableInMemoryRepositories {
 
     /**
