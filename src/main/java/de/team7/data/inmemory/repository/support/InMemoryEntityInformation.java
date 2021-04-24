@@ -21,10 +21,7 @@ public class InMemoryEntityInformation<T, ID> extends AbstractEntityInformation<
      * Creates a new {@link InMemoryEntityInformation} with the given domain class.
      *
      * @param domainClass must not be {@literal null}.
-     * @deprecated use {@link #getEntityInformation(Class)} instead
      */
-    @Deprecated
-    @SuppressWarnings("all")
     public InMemoryEntityInformation(Class<T> domainClass) {
         super(domainClass);
     }
