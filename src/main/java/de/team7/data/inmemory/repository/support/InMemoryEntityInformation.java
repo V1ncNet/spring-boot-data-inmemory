@@ -17,8 +17,6 @@ import static de.team7.data.inmemory.repository.support.IdUtils.getIdGetter;
  */
 public class InMemoryEntityInformation<T, ID> extends AbstractEntityInformation<T, ID> {
 
-    private final Class<T> domainClass;
-
     /**
      * Creates a new {@link InMemoryEntityInformation} with the given domain class.
      *
@@ -29,7 +27,6 @@ public class InMemoryEntityInformation<T, ID> extends AbstractEntityInformation<
     @SuppressWarnings("all")
     public InMemoryEntityInformation(Class<T> domainClass) {
         super(domainClass);
-        this.domainClass = domainClass;
     }
 
     /**
@@ -70,13 +67,13 @@ public class InMemoryEntityInformation<T, ID> extends AbstractEntityInformation<
 
     @SuppressWarnings("unchecked")
     private Optional<Class<ID>> getIdFieldType() {
-        return getIdField(domainClass)
+        return getIdField(getJavaType())
             .map(field -> (Class<ID>) field.getType());
     }
 
     @SuppressWarnings("unchecked")
     private Optional<Class<ID>> getIdGetterReturnType() {
-        return getIdGetter(domainClass)
+        return getIdGetter(getJavaType())
             .map(method -> (Class<ID>) method.getReturnType());
     }
 }
