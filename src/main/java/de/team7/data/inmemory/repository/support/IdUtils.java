@@ -70,7 +70,7 @@ public final class IdUtils {
 
             Optional<Method> idGetter = getIdGetter(entityClass);
             if (idGetter.isPresent()) {
-                Method idSetter = getIdSetter(entityClass, id);
+                Method idSetter = getIdSetter(entityClass);
                 idSetter.invoke(entity, id);
             }
         } catch (IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
@@ -125,10 +125,10 @@ public final class IdUtils {
         return Optional.empty();
     }
 
-    private static Method getIdSetter(Class<?> domainClass, Object id) throws NoSuchMethodException {
+    private static Method getIdSetter(Class<?> domainClass) throws NoSuchMethodException {
         Method idGetter = getIdGetter(domainClass).orElseThrow(NoSuchMethodException::new);
         String setterName = idGetter.getName().replaceFirst("^get", "set");
-        Method setter = domainClass.getMethod(setterName, id.getClass());
+        Method setter = domainClass.getMethod(setterName, idGetter.getReturnType());
         setter.setAccessible(true);
         return setter;
     }
