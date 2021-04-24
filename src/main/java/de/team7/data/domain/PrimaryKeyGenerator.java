@@ -18,4 +18,14 @@ public interface PrimaryKeyGenerator<ID> {
      * @return the next identifier
      */
     ID next(@Nullable ID previous);
+
+    /**
+     * Returns a key generator that always returns its input argument.
+     *
+     * @param <ID> the type of the input and output objects to the function
+     * @return a key generator which always returns its input argument
+     */
+    static <ID> PrimaryKeyGenerator<ID> identity() {
+        return previous -> previous;
+    }
 }
