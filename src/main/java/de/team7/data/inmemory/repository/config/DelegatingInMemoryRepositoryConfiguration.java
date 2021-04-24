@@ -2,6 +2,7 @@ package de.team7.data.inmemory.repository.config;
 
 import de.team7.data.domain.IntegerPrimaryKeyGenerator;
 import de.team7.data.domain.LongPrimaryKeyGenerator;
+import de.team7.data.inmemory.repository.support.InMemoryEntityTableStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,6 +32,11 @@ public class DelegatingInMemoryRepositoryConfiguration {
         IdentifierRegistry registry = new IdentifierRegistry();
         addIdentifiers(registry);
         return registry.get();
+    }
+
+    @Bean
+    public InMemoryEntityTableStore inMemoryEntityManager() {
+        return new InMemoryEntityTableStore();
     }
 
     protected void addIdentifiers(IdentifierRegistry registry) {

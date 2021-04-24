@@ -1,6 +1,7 @@
 package de.team7.data.inmemory.repository.support;
 
 import de.team7.data.domain.PrimaryKeyGenerator;
+import de.team7.data.inmemory.repository.EntityStore;
 import de.team7.data.repository.NoResultException;
 import de.team7.data.repository.NonUniqueResultException;
 import lombok.AllArgsConstructor;
@@ -43,11 +44,14 @@ class SimpleInMemoryRepositoryTest {
         return ++previous;
     };
 
-    SimpleInMemoryRepository<Entity, Integer> repository;
+    private EntityStore entityStore;
+    private SimpleInMemoryRepository<Entity, Integer> repository;
 
     @BeforeEach
     void setUp() {
-        repository = new SimpleInMemoryRepository<>(incrementer);
+        entityStore = new InMemoryEntityTableStore();
+        ((InMemoryEntityTableStore) entityStore).add(new InMemoryEntityStore<>(Entity.class, incrementer));
+        repository = new SimpleInMemoryRepository<>(Entity.class, entityStore);
     }
 
     @Test
@@ -77,19 +81,21 @@ class SimpleInMemoryRepositoryTest {
 
     @Test
     void saveNullIdViaMethodAccessor_shouldStoreEntity() {
+        InMemoryEntityStore<Integer> entityStore = new InMemoryEntityStore<>(EntityIdGetterAccessor.class, incrementer);
         SimpleInMemoryRepository<EntityIdGetterAccessor, Integer> repository =
-            new SimpleInMemoryRepository<>(incrementer);
+            new SimpleInMemoryRepository<>(EntityIdGetterAccessor.class, entityStore);
         EntityIdGetterAccessor entity = new EntityIdGetterAccessor();
 
         EntityIdGetterAccessor saved = repository.save(entity);
 
         assertNotNull(saved);
-        assertNotNull(saved.getId());
+        assertEquals(1, saved.getId());
     }
 
     @Test
     void missingIdAccessor_shouldThrowException() {
-        SimpleInMemoryRepository<Object, Integer> repository = new SimpleInMemoryRepository<>(incrementer);
+        SimpleInMemoryRepository<Object, Integer> repository =
+            new SimpleInMemoryRepository<>(Object.class, entityStore);
         Object entity = new Object();
 
         assertThrows(IllegalArgumentException.class, () -> repository.save(entity));
@@ -278,7 +284,7 @@ class SimpleInMemoryRepositoryTest {
     @Test
     void deleteNewEntity_shouldDoNothing() {
         SimpleInMemoryRepository<EntityIdGetterAccessor, Integer> repository =
-            new SimpleInMemoryRepository<>(incrementer);
+            new SimpleInMemoryRepository<>(EntityIdGetterAccessor.class, entityStore);
         EntityIdGetterAccessor entity = new EntityIdGetterAccessor();
 
         repository.delete(entity);

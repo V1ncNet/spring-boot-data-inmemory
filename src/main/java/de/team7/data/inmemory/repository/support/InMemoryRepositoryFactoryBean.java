@@ -1,11 +1,13 @@
 package de.team7.data.inmemory.repository.support;
 
+import de.team7.data.inmemory.repository.EntityStore;
 import de.team7.data.inmemory.repository.config.IdentifierMapping;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.core.support.RepositoryFactoryBeanSupport;
 import org.springframework.data.repository.core.support.RepositoryFactorySupport;
+import org.springframework.util.Assert;
 
 /**
  * Special adapter for Springs {@link org.springframework.beans.factory.FactoryBean} interface to allow easy setup of
@@ -18,6 +20,9 @@ import org.springframework.data.repository.core.support.RepositoryFactorySupport
  */
 public class InMemoryRepositoryFactoryBean<T extends Repository<S, ID>, S, ID>
     extends RepositoryFactoryBeanSupport<T, S, ID> {
+
+    @Setter(onMethod_ = @Autowired)
+    private EntityStore entityStore;
 
     @Setter(onMethod_ = @Autowired(required = false))
     private IdentifierMapping identifierMapping;
@@ -33,6 +38,13 @@ public class InMemoryRepositoryFactoryBean<T extends Repository<S, ID>, S, ID>
 
     @Override
     protected RepositoryFactorySupport createRepositoryFactory() {
-        return new InMemoryRepositoryFactory(identifierMapping);
+        Assert.notNull(entityStore, "Entity manager must not be null");
+        return new InMemoryRepositoryFactory(entityStore, identifierMapping);
+    }
+
+    @Override
+    public void afterPropertiesSet() {
+        Assert.notNull(entityStore, "Entity manager must not be null");
+        super.afterPropertiesSet();
     }
 }

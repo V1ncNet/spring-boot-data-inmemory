@@ -3,6 +3,7 @@ package de.team7.data.inmemory.repository.support;
 import de.team7.data.domain.Identifier;
 import de.team7.data.domain.IdentifierGenerator;
 import de.team7.data.domain.PrimaryKeyGenerator;
+import de.team7.data.inmemory.repository.EntityStore;
 import de.team7.data.inmemory.repository.InMemoryRepository;
 import de.team7.data.inmemory.repository.config.IdentifierMapping;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class InMemoryRepositoryFactory extends RepositoryFactorySupport {
 
+    private final EntityStore entityStore;
     private final IdentifierMapping identifierMapping;
 
     @Override
@@ -46,7 +48,11 @@ public class InMemoryRepositoryFactory extends RepositoryFactorySupport {
             generator = new DefaultConstructorIdentifierGenerator<>(domainType);
         }
 
-        Object repository = getTargetRepositoryViaReflection(metadata, generator);
+        if (entityStore instanceof InMemoryEntityTableStore) {
+            ((InMemoryEntityTableStore) entityStore).add(new InMemoryEntityStore<>(domainType, generator));
+        }
+
+        Object repository = getTargetRepositoryViaReflection(metadata, entityInformation, entityStore);
         Assert.isInstanceOf(InMemoryRepository.class, repository);
 
         return (InMemoryRepository<?, ?>) repository;
