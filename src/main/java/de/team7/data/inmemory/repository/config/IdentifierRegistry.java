@@ -1,7 +1,7 @@
 package de.team7.data.inmemory.repository.config;
 
 import de.team7.data.domain.PrimaryKeyGenerator;
-import org.springframework.lang.NonNull;
+import lombok.NonNull;
 
 import java.util.HashMap;
 import java.util.Map;
