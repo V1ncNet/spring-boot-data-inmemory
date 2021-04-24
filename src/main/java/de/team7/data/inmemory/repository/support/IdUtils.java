@@ -73,7 +73,7 @@ public final class IdUtils {
                 Method idSetter = getIdSetter(entityClass, id);
                 idSetter.invoke(entity, id);
             }
-        } catch (IllegalAccessException | NoSuchMethodException | InvocationTargetException | NoSuchFieldException e) {
+        } catch (IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
             throw new IllegalArgumentException(
                 String.format("Couldn't set id in entity [%s]", entity.getClass().getCanonicalName()), e
             );
@@ -125,9 +125,8 @@ public final class IdUtils {
         return Optional.empty();
     }
 
-    private static Method getIdSetter(Class<?> domainClass, Object id)
-        throws NoSuchFieldException, NoSuchMethodException {
-        Method idGetter = getIdGetter(domainClass).orElseThrow(NoSuchFieldException::new);
+    private static Method getIdSetter(Class<?> domainClass, Object id) throws NoSuchMethodException {
+        Method idGetter = getIdGetter(domainClass).orElseThrow(NoSuchMethodException::new);
         String setterName = idGetter.getName().replaceFirst("^get", "set");
         Method setter = domainClass.getMethod(setterName, id.getClass());
         setter.setAccessible(true);
