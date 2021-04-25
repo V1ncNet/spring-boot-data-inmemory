@@ -141,7 +141,7 @@ class SimpleInMemoryRepositoryTest {
         Optional<Entity> entity = repository.findById(ID);
 
         assertNotNull(entity);
-        assertTrue(entity.isEmpty());
+        assertFalse(entity.isPresent());
     }
 
     @Test
@@ -427,7 +427,7 @@ class SimpleInMemoryRepositoryTest {
         Optional<Entity> retrieved = repository.findUniqueBy("name", "foo");
 
         assertNotNull(retrieved);
-        assertTrue(retrieved.isEmpty());
+        assertFalse(retrieved.isPresent());
     }
 
     @Test

@@ -58,8 +58,7 @@ public class InMemoryEntityInformation<T, ID> extends AbstractEntityInformation<
      */
     @Override
     public Class<ID> getIdType() {
-        return getIdFieldType().or(this::getIdGetterReturnType)
-            .orElseThrow(IllegalArgumentException::new);
+        return getIdFieldType().orElseGet(() -> getIdGetterReturnType().orElseThrow(IllegalArgumentException::new));
     }
 
     @SuppressWarnings("unchecked")

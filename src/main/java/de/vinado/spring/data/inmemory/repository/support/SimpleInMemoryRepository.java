@@ -133,9 +133,9 @@ public class SimpleInMemoryRepository<T, ID> implements InMemoryRepository<T, ID
     @Override
     public void deleteById(ID id) {
         Assert.notNull(id, ID_MUST_NOT_BE_NULL);
-        findById(id).ifPresentOrElse(this::delete, () -> {
-            throw new NoResultException(String.format("No entity w/ id [%s] exists", id));
-        });
+        T entity = findById(id)
+            .orElseThrow(() -> new NoResultException(String.format("No entity w/ id [%s] exists", id)));
+        delete(entity);
     }
 
     /**
@@ -210,7 +210,7 @@ public class SimpleInMemoryRepository<T, ID> implements InMemoryRepository<T, ID
 
     private <F> boolean has(String property, F value, T entity) throws NoSuchFieldException, IllegalAccessException {
         Optional<Field> field = getAccessorDeep(entity.getClass(), Class::getDeclaredFields, contains(property));
-        if (field.isEmpty()) {
+        if (!field.isPresent()) {
             throw new NoSuchFieldException(
                 String.format("Entity [%s] has no property [%s]", entity.getClass().getCanonicalName(), property)
             );
