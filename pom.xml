@@ -10,12 +10,12 @@
         <relativePath/>
     </parent>
 
-    <groupId>de.team7</groupId>
-    <artifactId>swt</artifactId>
+    <groupId>de.vinado.boot</groupId>
+    <artifactId>spring-boot-data-inmemory</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
-    <name>swt</name>
-    <url>https://github.com/V1ncNet/swt-backend</url>
+    <name>spring-boot-data-inmemory</name>
+    <url>https://github.com/V1ncNet/spring-boot-data-inmemory</url>
 
     <licenses>
         <license>
@@ -29,19 +29,16 @@
             <name>Vincent Nadoll</name>
             <email>vincent.nadoll@gmail.com</email>
         </developer>
-        <developer>
-            <name>Julian Albrecht</name>
-        </developer>
     </developers>
 
     <scm>
-        <connection>scm:git:git://github.com/V1ncNet/swt-backend.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/V1ncNet/swt-backend.git</developerConnection>
-        <url>https://github.com/V1ncNet/swt-backend</url>
+        <connection>scm:git:git://github.com/V1ncNet/spring-boot-data-inmemory.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/V1ncNet/spring-boot-data-inmemory.git</developerConnection>
+        <url>https://github.com/V1ncNet/spring-boot-data-inmemory</url>
     </scm>
     <issueManagement>
         <system>GitHub</system>
-        <url>https://github.com/V1ncNet/swt-backend/issues</url>
+        <url>https://github.com/V1ncNet/spring-boot-data-inmemory/issues</url>
     </issueManagement>
 
     <properties>
