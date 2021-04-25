@@ -6,8 +6,10 @@
     <groupId>de.vinado.boot</groupId>
     <artifactId>spring-boot-data-inmemory</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
     <name>spring-boot-data-inmemory</name>
+    <description>Parent for Spring Boot Starter which auto-configures the Spring Data In-Memory module</description>
     <url>https://github.com/V1ncNet/spring-boot-data-inmemory</url>
 
     <licenses>
@@ -46,6 +48,12 @@
         <maven-checkstyle-plugin.version>3.1.2</maven-checkstyle-plugin.version>
     </properties>
 
+    <modules>
+        <module>spring-data-inmemory</module>
+        <module>spring-boot-starter</module>
+        <module>spring-boot-autoconfigure</module>
+    </modules>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -55,54 +63,19 @@
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
+
+            <dependency>
+                <groupId>de.vinado.spring</groupId>
+                <artifactId>spring-data-inmemory</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.vinado.boot</groupId>
+                <artifactId>spring-boot-autoconfigure-data-inmemory</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-commons</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-autoconfigure</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-nop</artifactId>
-            <optional>true</optional>
-        </dependency>
-
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-junit-jupiter</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
 
     <build>
         <plugins>
